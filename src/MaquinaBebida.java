@@ -1,9 +1,46 @@
+import java.util.EnumMap;
 import java.util.Map;
+
+enum Dinheiro {
+  cinquenta_centavos(0.5), um_real(1),
+  dois_reais(2), cinco_reais(5), dez_reais(10);
+
+  private final double valor;
+
+  Dinheiro(double valor) {
+    this.valor = valor;
+  }
+
+  public double getValor() {
+    return this.valor;
+  }
+}
 
 class MaquinaBebida {
   private Map<Bebida, Integer> estoque;
 
-  private double saldo = 0;
+  private EnumMap<Dinheiro, Integer> saldo_troco = new EnumMap<Dinheiro, Integer>(Map.of(
+      Dinheiro.cinquenta_centavos, 0,
+      Dinheiro.um_real, 0,
+      Dinheiro.dois_reais, 0,
+      Dinheiro.cinco_reais, 0,
+      Dinheiro.dez_reais, 0));
+
+  double temp_total = 0;
+  public double saldoTotal() {
+    temp_total = 0;
+    
+    saldo_troco.forEach((dinheiro, quantidade) -> {
+      temp_total += dinheiro.getValor() * quantidade;
+    });
+
+    return temp_total;
+  }
+  // @Todo
+  // public double saldoTotal() {
+    
+  //   return saldo_troco.values().stream().mapToInt(Integer::valueOf).sum();
+  // }
 
   public void adicionarBebida(Bebida bebida, int quantidade) {
     if (quantidade <= 0) {
@@ -17,25 +54,14 @@ class MaquinaBebida {
     }
   }
 
-  public void inserirDinheiro(double valor) {
-    saldo += valor;
+  public void inserirDinheiro(EnumMap<Dinheiro, Integer> novoValor) {
+    novoValor.forEach((dinheiro, quantidade) -> {
+      saldo_troco.put(dinheiro, saldo_troco.get(dinheiro) + quantidade);
+    });
   }
 
-  public void comprarBebida(Bebida bebida) {
-    if (saldo >= bebida.getPreco()) {
-      if (estoque.containsKey(bebida)) {
-        if (estoque.get(bebida) > 0) {
-          saldo -= bebida.getPreco();
-          estoque.put(bebida, estoque.get(bebida) - 1);
-        } else {
-          System.out.println("Estoque esgotado");
-        }
-      } else {
-        System.out.println("Bebida não existe");
-      }
-    } else {
-      System.out.println("Saldo insuficiente");
-    }
+  public void comprarBebida(Bebida bebida, double entrada) {
+    throw new Error("Não implementado");
   }
 
 }
