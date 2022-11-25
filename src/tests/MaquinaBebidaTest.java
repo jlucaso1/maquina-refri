@@ -1,9 +1,16 @@
+package tests;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+
+import maquinaRefri.Bebida;
+import maquinaRefri.Dinheiro;
+import maquinaRefri.MaquinaBebida;
+import maquinaRefri.Util;
 
 public class MaquinaBebidaTest {
 
