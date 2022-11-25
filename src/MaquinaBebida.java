@@ -64,8 +64,6 @@ class MaquinaBebida {
 
     double troco = entrada - bebida.getPreco();
 
-    System.out.println("Troco: " + troco);
-
     EnumMap<Dinheiro, Integer> trocoMap = new EnumMap<Dinheiro, Integer>(Util.SALDO_VAZIO());
 
     while (troco > 0) {
@@ -84,7 +82,6 @@ class MaquinaBebida {
       }
     }
 
-    System.out.println("TrocoMap: " + trocoMap);
     return trocoMap;
   }
 
