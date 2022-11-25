@@ -4,10 +4,18 @@ import java.util.Map;
 public class Util {
   static final EnumMap<Dinheiro, Integer> SALDO_VAZIO() {
     return new EnumMap<Dinheiro, Integer>(Map.of(
-        Dinheiro.cinquenta_centavos, 0,
-        Dinheiro.um_real, 0,
-        Dinheiro.dois_reais, 0,
-        Dinheiro.cinco_reais, 0,
-        Dinheiro.dez_reais, 0));
+        Dinheiro.CINQUENTA_CENTAVOS, 0,
+        Dinheiro.UM_REAL, 0,
+        Dinheiro.DOIS_REAIS, 0,
+        Dinheiro.CINCO_REAIS, 0,
+        Dinheiro.DEZ_REAIS, 0));
+  }
+
+  static final EnumMap<Bebida, Integer> BEBIDAS_VAZIAS() {
+    return new EnumMap<Bebida, Integer>(Map.of(
+        Bebida.AGUA, 0,
+        Bebida.COCA, 0,
+        Bebida.GUARANA, 0,
+        Bebida.SUCO, 0));
   }
 }

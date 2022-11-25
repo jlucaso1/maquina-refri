@@ -2,8 +2,8 @@ import java.util.EnumMap;
 import java.util.Map;
 
 enum Dinheiro {
-  cinquenta_centavos(0.5), um_real(1),
-  dois_reais(2), cinco_reais(5), dez_reais(10);
+  CINQUENTA_CENTAVOS(0.5), UM_REAL(1),
+  DOIS_REAIS(2), CINCO_REAIS(5), DEZ_REAIS(10);
 
   private final double valor;
 
@@ -17,11 +17,15 @@ enum Dinheiro {
 }
 
 class MaquinaBebida {
-  private EnumMap<Bebida, Integer> estoque = new EnumMap<Bebida, Integer>(Bebida.class);
+  private EnumMap<Bebida, Integer> estoque = Util.BEBIDAS_VAZIAS();
 
   private EnumMap<Dinheiro, Integer> saldo_troco = Util.SALDO_VAZIO();
 
-  public EnumMap<Dinheiro, Integer> saldoTroco() {
+  public EnumMap<Bebida, Integer> getEstoque() {
+    return this.estoque;
+  }
+
+  public EnumMap<Dinheiro, Integer> getSaldoTroco() {
     return this.saldo_troco;
   }
 
