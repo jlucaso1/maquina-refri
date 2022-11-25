@@ -95,10 +95,6 @@ class MaquinaBebida {
 
     EnumMap<Dinheiro, Integer> troco = calcularTroco(bebida, entrada);
 
-    troco.forEach((dinheiro, quantidade) -> {
-      saldo_troco.put(dinheiro, saldo_troco.get(dinheiro) - quantidade);
-    });
-
     estoque.put(bebida, estoque.get(bebida) - 1);
 
     return troco;
