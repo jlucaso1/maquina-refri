@@ -1,26 +1,22 @@
-public class Bebida {
-  private String nome;
+enum Bebida {
+  AGUA(2.0), COCA(3.0), GUARANA(3.0), SUCO(2.5);
+
   private double preco;
 
-  public Bebida(String nome, double preco) {
-    this.nome = nome;
+  Bebida(double preco) {
     this.preco = preco;
-  }
-
-  public String getNome() {
-    return nome;
   }
 
   public double getPreco() {
     return preco;
   }
 
-  public void setNome(String nome) {
-    this.nome = nome;
+  public String getNome() {
+    return this.name();
   }
 
-  public void setPreco(double preco) {
-    this.preco = preco;
+  @Override
+  public String toString() {
+    return this.name() + " (" + this.preco + ")";
   }
-
 }

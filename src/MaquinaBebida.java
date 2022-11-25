@@ -17,30 +17,21 @@ enum Dinheiro {
 }
 
 class MaquinaBebida {
-  private Map<Bebida, Integer> estoque;
+  private EnumMap<Bebida, Integer> estoque = new EnumMap<Bebida, Integer>(Bebida.class);
 
-  private EnumMap<Dinheiro, Integer> saldo_troco = new EnumMap<Dinheiro, Integer>(Map.of(
-      Dinheiro.cinquenta_centavos, 0,
-      Dinheiro.um_real, 0,
-      Dinheiro.dois_reais, 0,
-      Dinheiro.cinco_reais, 0,
-      Dinheiro.dez_reais, 0));
+  private EnumMap<Dinheiro, Integer> saldo_troco = Util.SALDO_VAZIO();
 
-  double temp_total = 0;
-  public double saldoTotal() {
-    temp_total = 0;
-    
-    saldo_troco.forEach((dinheiro, quantidade) -> {
-      temp_total += dinheiro.getValor() * quantidade;
-    });
-
-    return temp_total;
+  public EnumMap<Dinheiro, Integer> saldoTroco() {
+    return this.saldo_troco;
   }
-  // @Todo
-  // public double saldoTotal() {
-    
-  //   return saldo_troco.values().stream().mapToInt(Integer::valueOf).sum();
-  // }
+
+  public double saldoTotal(EnumMap<Dinheiro, Integer> saldoMap) {
+    double saldo = 0;
+    for (Map.Entry<Dinheiro, Integer> entrada : saldoMap.entrySet()) {
+      saldo += entrada.getKey().getValor() * entrada.getValue();
+    }
+    return saldo;
+  }
 
   public void adicionarBebida(Bebida bebida, int quantidade) {
     if (quantidade <= 0) {
@@ -60,8 +51,57 @@ class MaquinaBebida {
     });
   }
 
-  public void comprarBebida(Bebida bebida, double entrada) {
-    throw new Error("Não implementado");
+  private EnumMap<Dinheiro, Integer> calcularTroco(Bebida bebida, double entrada) {
+    double saldoAtual = this.saldoTotal(saldo_troco);
+
+    if (saldoAtual - entrada < 0) {
+      throw new IllegalArgumentException("Troco insuficiente");
+    }
+
+    double troco = entrada - bebida.getPreco();
+
+    System.out.println("Troco: " + troco);
+
+    EnumMap<Dinheiro, Integer> trocoMap = new EnumMap<Dinheiro, Integer>(Util.SALDO_VAZIO());
+
+    while (troco > 0) {
+      boolean trocoEncontrado = false;
+      for (Dinheiro dinheiro : Dinheiro.values()) {
+        if (troco >= dinheiro.getValor() && saldo_troco.get(dinheiro) > 0) {
+          troco -= dinheiro.getValor();
+          trocoMap.put(dinheiro, trocoMap.get(dinheiro) + 1);
+          saldo_troco.put(dinheiro, saldo_troco.get(dinheiro) - 1);
+          trocoEncontrado = true;
+        }
+      }
+
+      if (!trocoEncontrado) {
+        throw new IllegalArgumentException("Troco insuficiente");
+      }
+    }
+
+    System.out.println("TrocoMap: " + trocoMap);
+    return trocoMap;
+  }
+
+  public EnumMap<Dinheiro, Integer> comprarBebida(Bebida bebida, double entrada) {
+    if (estoque.get(bebida) == 0) {
+      throw new IllegalArgumentException("Bebida indisponível");
+    }
+
+    if (bebida.getPreco() > entrada) {
+      throw new IllegalArgumentException("Você não tem dinheiro suficiente");
+    }
+
+    EnumMap<Dinheiro, Integer> troco = calcularTroco(bebida, entrada);
+
+    troco.forEach((dinheiro, quantidade) -> {
+      saldo_troco.put(dinheiro, saldo_troco.get(dinheiro) - quantidade);
+    });
+
+    estoque.put(bebida, estoque.get(bebida) - 1);
+
+    return troco;
   }
 
 }
