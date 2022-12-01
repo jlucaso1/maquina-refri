@@ -47,26 +47,22 @@ public class App {
         while (true) {
           System.out.println("\n--- Comprar bebida (Cliente) ---");
           System.out.println("Selecione uma bebida:");
-          maquina.getEstoque().forEach((k, v) -> {
-            System.out.println(k.ordinal() + 1 + " - " + k.getNome() + " (R$ " + k.getPreco() + ")");
-          });
-          System.out.println((maquina.getEstoque().size()+1)+" - Voltar");
+          for (Bebida bebida : Bebida.values()) {
+            System.out.println(bebida.ordinal() + 1 + " - " + bebida.getNome() + " (R$ " + bebida.getPreco() + ")");
+          }
+          System.out.println((Bebida.values().length + 1) + " - Voltar");
           System.out.print("Selecione uma opcao: ");
           int opcaoBebida = scanner.nextInt();
           Bebida bebida = null;
 
-          if (opcaoBebida == 1) {
-            bebida = Bebida.AGUA;
-          } else if (opcaoBebida == 2) {
-            bebida = Bebida.COCA;
-          } else if (opcaoBebida == 3) {
-            bebida = Bebida.GUARANA;
-          } else if (opcaoBebida == 4) {
-            bebida = Bebida.FANTA;
-          } else if (opcaoBebida == 5) {
-            bebida = Bebida.SUCO;
-          } else if (opcaoBebida == 6) {
-            break;
+          try {
+            bebida = Bebida.values()[opcaoBebida - 1];
+          } catch (ArrayIndexOutOfBoundsException e) {
+            if (opcaoBebida == Bebida.values().length + 1) {
+              break;
+            }
+            System.out.println("Opcao invalida!");
+            continue;
           }
           if (bebida != null) {
             System.out.print("Insira o dinheiro na maquina: ");
@@ -104,48 +100,79 @@ public class App {
       System.out.print("Selecione uma opcao:");
       int opcaoAdministrador = scanner.nextInt();
       if (opcaoAdministrador == 1) {
-        System.out.println("\n--- Inserir dinheiro (Administrador) ---");
-        System.out.println("Selecione uma moeda:");
-        System.out.println("1 - 50 centavos");
-        System.out.println("2 - 1 real");
-        System.out.println("3 - 2 reais");
-        System.out.println("4 - 5 reais");
-        System.out.println("5 - 10 reais");
-        System.out.print("Selecione uma moeda: ");
-        int opcaoMoeda = scanner.nextInt();
-        Dinheiro dinheiro = null;
-        switch (opcaoMoeda) {
-          case 1:
-            dinheiro = Dinheiro.CINQUENTA_CENTAVOS;
-            break;
-          case 2:
-            dinheiro = Dinheiro.UM_REAL;
-            break;
-          case 3:
-            dinheiro = Dinheiro.DOIS_REAIS;
-            break;
-          case 4:
-            dinheiro = Dinheiro.CINCO_REAIS;
-            break;
-          case 5:
-            dinheiro = Dinheiro.DEZ_REAIS;
-            break;
-          default:
-            System.out.println("Opcao invalida");
-            break;
-        }
-        if (dinheiro != null) {
-          System.out.print("Quantidade: ");
-          int quantidade = scanner.nextInt();
+        while (true) {
+          System.out.println("\n--- Inserir dinheiro (Administrador) ---");
+          System.out.println("Selecione uma moeda:");
+          for (Dinheiro dinheiro : Dinheiro.values()) {
+            System.out.println(dinheiro.ordinal() + 1 + " - R$ " + dinheiro.getValor());
+          }
+          System.out.println((Dinheiro.values().length + 1) + " - Voltar");
+          System.out.print("Selecione uma moeda: ");
+          int opcaoMoeda = scanner.nextInt();
+          Dinheiro dinheiro = null;
           try {
-            maquina.inserirDinheiro(new EnumMap<Dinheiro, Integer>(Map.of(
-                dinheiro, quantidade)));
-            System.out.println("Dinheiro inserido com sucesso!");
-          } catch (Exception e) {
-            System.out.println(e.getMessage());
+            dinheiro = Dinheiro.values()[opcaoMoeda - 1];
+          } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Opcao invalida!");
+            if (opcaoMoeda == Dinheiro.values().length + 1) {
+              break;
+            }
+            continue;
+          }
+          if (dinheiro != null) {
+            System.out.print("Quantidade: ");
+            int quantidade = scanner.nextInt();
+            try {
+              maquina.inserirDinheiro(new EnumMap<Dinheiro, Integer>(Map.of(
+                  dinheiro, quantidade)));
+              System.out.println("Dinheiro inserido com sucesso!");
+            } catch (Exception e) {
+              System.out.println(e.getMessage());
+            }
+            break;
           }
         }
       } else if (opcaoAdministrador == 2) {
+        while (true) {
+          System.out.println("\n--- Adicionar bebida (Administrador) ---");
+          System.out.println("Selecione uma bebida:");
+          for (Bebida bebida : Bebida.values()) {
+            System.out.println(bebida.ordinal() + 1 + " - " + bebida.getNome() + " (R$ " + bebida.getPreco() + ")");
+          }
+          System.out.println((Bebida.values().length + 1) + " - Voltar");
+          System.out.print("Selecione uma bebida: ");
+          int opcaoBebida = scanner.nextInt();
+          Bebida bebida = null;
+          try {
+            bebida = Bebida.values()[opcaoBebida - 1];
+          } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Opcao invalida!");
+            if (opcaoBebida == Bebida.values().length + 1) {
+              break;
+            }
+            continue;
+          }
+          if (bebida != null) {
+            System.out.print("Quantidade: ");
+            int quantidade = scanner.nextInt();
+            try {
+              maquina.adicionarBebida(bebida, quantidade);
+              System.out.println(quantidade+" unidades de "+ bebida.getNome()+" adicionada com sucesso!");
+            } catch (Exception e) {
+              System.out.println(e.getMessage());
+            }
+            break;
+          }
+        }
+      } else if (opcaoAdministrador == 3) {
+      } else if (opcaoAdministrador == 4) {
+      } else if (opcaoAdministrador == 5) {
+        break;
+      } else if (opcaoAdministrador == 6) {
+        System.out.println("Saindo...");
+        System.exit(0);
+      } else {
+        System.out.println("Opção invalida");
       }
     }
   }
