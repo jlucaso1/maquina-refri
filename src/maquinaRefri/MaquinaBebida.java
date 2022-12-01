@@ -16,6 +16,12 @@ public class MaquinaBebida {
     return this.saldo_troco;
   }
 
+  private double dinheiro_recebido = 0;
+
+  public double getDinheiroRecebido() {
+    return this.dinheiro_recebido;
+  }
+
   public double saldoTotal(EnumMap<Dinheiro, Integer> saldoMap) {
     double saldo = 0;
     for (Map.Entry<Dinheiro, Integer> entrada : saldoMap.entrySet()) {
@@ -84,6 +90,7 @@ public class MaquinaBebida {
     EnumMap<Dinheiro, Integer> troco = calcularTroco(bebida, entrada);
 
     estoque.put(bebida, estoque.get(bebida) - 1);
+    dinheiro_recebido += bebida.getPreco();
 
     return troco;
   }
