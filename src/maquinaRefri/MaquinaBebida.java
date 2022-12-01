@@ -1,6 +1,8 @@
 package maquinaRefri;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class MaquinaBebida {
@@ -9,6 +11,9 @@ public class MaquinaBebida {
   private EnumMap<Dinheiro, Integer> saldo_troco = Util.SALDO_VAZIO();
 
   private double dinheiro_recebido = 0;
+
+  private EnumMap<Bebida, Integer> produtos_vendidos = Util.BEBIDAS_VAZIAS();
+  private List<String> historico = new ArrayList<String>();
 
   public EnumMap<Bebida, Integer> getEstoque() {
     return this.estoque;
@@ -40,11 +45,13 @@ public class MaquinaBebida {
     } else {
       estoque.put(bebida, quantidade);
     }
+    historico.add("Adicionado " + quantidade + " de " + bebida.getNome() + " ao estoque");
   }
 
   public void inserirDinheiro(EnumMap<Dinheiro, Integer> novoValor) {
     novoValor.forEach((dinheiro, quantidade) -> {
       saldo_troco.put(dinheiro, saldo_troco.get(dinheiro) + quantidade);
+      historico.add("Inserido " + quantidade + " de R$ " + dinheiro.getValor() + " aos trocos");
     });
   }
 
@@ -88,9 +95,10 @@ public class MaquinaBebida {
     }
 
     EnumMap<Dinheiro, Integer> troco = calcularTroco(bebida, entrada);
-
     estoque.put(bebida, estoque.get(bebida) - 1);
     dinheiro_recebido += bebida.getPreco();
+    produtos_vendidos.put(bebida, produtos_vendidos.get(bebida) + 1);
+    historico.add("Vendido " + bebida.getNome() + " por R$ " + bebida.getPreco() + " com troco de R$ " + saldoTotal(troco));
 
     return troco;
   }

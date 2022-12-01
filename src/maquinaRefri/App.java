@@ -68,8 +68,12 @@ public class App {
             System.out.print("Insira o dinheiro na maquina: ");
             double valor = scanner.nextDouble();
             try {
-              maquina.comprarBebida(bebida, valor);
+              EnumMap<Dinheiro, Integer> trocoenum = maquina.comprarBebida(bebida, valor);
+              double troco = maquina.saldoTotal(trocoenum);
               System.out.println("Bebida comprada com sucesso!");
+              if (troco > 0) {
+                System.out.println("Troco: R$ " + troco);
+              }
             } catch (Exception e) {
               System.out.println(e.getMessage());
             }
@@ -93,10 +97,9 @@ public class App {
       System.out.println("Selecione uma opcao:");
       System.out.println("1 - Inserir dinheiro");
       System.out.println("2 - Adicionar bebida");
-      System.out.println("3 - Retirar dinheiro");
-      System.out.println("4 - Retirar bebida");
-      System.out.println("5 - Voltar");
-      System.out.println("6 - Sair");
+      System.out.println("3 - Relatorio");
+      System.out.println("4 - Voltar");
+      System.out.println("5 - Sair");
       System.out.print("Selecione uma opcao:");
       int opcaoAdministrador = scanner.nextInt();
       if (opcaoAdministrador == 1) {
@@ -165,10 +168,20 @@ public class App {
           }
         }
       } else if (opcaoAdministrador == 3) {
+        System.out.println("\n--- Relatorio (Administrador) ---");
+        System.out.println("Dinheiro na maquina: R$ " + maquina.getDinheiroRecebido());
+        System.out.println("Bebidas na maquina:");
+        maquina.getEstoque().forEach((bebida, quantidade) -> {
+          System.out.println("\t"+bebida.getNome() + ": " + quantidade);
+        });
+        System.out.println("Dinheiro de troco na maquina:");
+        maquina.getSaldoTroco().forEach((dinheiro, quantidade) -> {
+          System.out.println("\t"+"R$ " + dinheiro.getValor() + ": " + quantidade);
+        });
+        System.out.println("\t"+"Total de troco: R$ " + maquina.saldoTotal(maquina.getSaldoTroco()));
       } else if (opcaoAdministrador == 4) {
-      } else if (opcaoAdministrador == 5) {
         break;
-      } else if (opcaoAdministrador == 6) {
+      } else if (opcaoAdministrador == 5) {
         System.out.println("Saindo...");
         System.exit(0);
       } else {
