@@ -43,7 +43,7 @@ public class App {
           System.out.println("\n--- Comprar bebida (Cliente) ---");
           System.out.println("Selecione uma bebida:");
           for (Bebida bebida : Bebida.values()) {
-            System.out.println(bebida.ordinal() + 1 + " - " + bebida.getNome() + " (R$ " + bebida.getPreco() + ")");
+            System.out.println(bebida.ordinal() + 1 + " - " + bebida.getNome() + " (R$ " + bebida.getPreco() + ")" + " - " + maquina.getQuantidadeBebida(bebida) + " unidades");
           }
           System.out.println((Bebida.values().length + 1) + " - Voltar");
           System.out.print("Selecione uma opcao: ");
