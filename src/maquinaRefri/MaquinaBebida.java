@@ -8,6 +8,8 @@ public class MaquinaBebida {
 
   private EnumMap<Dinheiro, Integer> saldo_troco = Util.SALDO_VAZIO();
 
+  private double dinheiro_recebido = 0;
+
   public EnumMap<Bebida, Integer> getEstoque() {
     return this.estoque;
   }
@@ -15,8 +17,6 @@ public class MaquinaBebida {
   public EnumMap<Dinheiro, Integer> getSaldoTroco() {
     return this.saldo_troco;
   }
-
-  private double dinheiro_recebido = 0;
 
   public double getDinheiroRecebido() {
     return this.dinheiro_recebido;
@@ -52,7 +52,7 @@ public class MaquinaBebida {
     double saldoAtual = this.saldoTotal(saldo_troco);
 
     if (saldoAtual - entrada < 0) {
-      throw new IllegalArgumentException("Troco insuficiente");
+      throw new IllegalArgumentException("Troco insuficiente, devolvendo dinheiro");
     }
 
     double troco = entrada - bebida.getPreco();
@@ -71,7 +71,7 @@ public class MaquinaBebida {
       }
 
       if (!trocoEncontrado) {
-        throw new IllegalArgumentException("Troco insuficiente");
+        throw new IllegalArgumentException("Troco insuficiente, devolvendo dinheiro");
       }
     }
 
@@ -80,11 +80,11 @@ public class MaquinaBebida {
 
   public EnumMap<Dinheiro, Integer> comprarBebida(Bebida bebida, double entrada) {
     if (estoque.get(bebida) == 0) {
-      throw new IllegalArgumentException("Bebida indisponível");
+      throw new IllegalArgumentException("Bebida indisponível, devolvendo dinheiro");
     }
 
     if (bebida.getPreco() > entrada) {
-      throw new IllegalArgumentException("Você não tem dinheiro suficiente");
+      throw new IllegalArgumentException("Você não tem dinheiro suficiente, devolvendo dinheiro");
     }
 
     EnumMap<Dinheiro, Integer> troco = calcularTroco(bebida, entrada);
