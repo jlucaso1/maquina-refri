@@ -32,8 +32,6 @@ public class App {
       }
     }
 
-    
-
   }
 
   private static void cliente(MaquinaBebida maquina, Scanner scanner) {
@@ -49,27 +47,25 @@ public class App {
         while (true) {
           System.out.println("\n--- Comprar bebida (Cliente) ---");
           System.out.println("Selecione uma bebida:");
-          System.out.println("1 - Agua");
-          System.out.println("2 - Coca");
-          System.out.println("3 - Guarana");
-          System.out.println("4 - Fanta");
-          System.out.println("5 - Suco");
-          System.out.println("6 - Voltar");
+          maquina.getEstoque().forEach((k, v) -> {
+            System.out.println(k.ordinal() + 1 + " - " + k.getNome() + " (R$ " + k.getPreco() + ")");
+          });
+          System.out.println((maquina.getEstoque().size()+1)+" - Voltar");
           System.out.print("Selecione uma opcao: ");
           int opcaoBebida = scanner.nextInt();
           Bebida bebida = null;
 
-          if (opcaoBebida == 1){
+          if (opcaoBebida == 1) {
             bebida = Bebida.AGUA;
-          } else if (opcaoBebida == 2){
+          } else if (opcaoBebida == 2) {
             bebida = Bebida.COCA;
-          } else if (opcaoBebida == 3){
+          } else if (opcaoBebida == 3) {
             bebida = Bebida.GUARANA;
-          } else if (opcaoBebida == 4){
+          } else if (opcaoBebida == 4) {
             bebida = Bebida.FANTA;
-          } else if (opcaoBebida == 5){
+          } else if (opcaoBebida == 5) {
             bebida = Bebida.SUCO;
-          } else if (opcaoBebida == 6){
+          } else if (opcaoBebida == 6) {
             break;
           }
           if (bebida != null) {
@@ -140,13 +136,13 @@ public class App {
         }
         if (dinheiro != null) {
           System.out.print("Quantidade: ");
-        int quantidade = scanner.nextInt();
+          int quantidade = scanner.nextInt();
           try {
             maquina.inserirDinheiro(new EnumMap<Dinheiro, Integer>(Map.of(
                 dinheiro, quantidade)));
             System.out.println("Dinheiro inserido com sucesso!");
           } catch (Exception e) {
-            System.out.println("Erro ao inserir dinheiro: " + e.getMessage());
+            System.out.println(e.getMessage());
           }
         }
       } else if (opcaoAdministrador == 2) {
