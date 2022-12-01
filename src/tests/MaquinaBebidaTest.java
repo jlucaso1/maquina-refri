@@ -18,7 +18,7 @@ public class MaquinaBebidaTest {
   public void adicionarBebida() {
     MaquinaBebida maquina = new MaquinaBebida();
     maquina.adicionarBebida(Bebida.COCA, 1);
-    assertEquals(1, maquina.getEstoque().get(Bebida.COCA));
+    assertEquals(1, maquina.getQuantidadeBebida(Bebida.COCA));
   }
 
   @Test
@@ -48,7 +48,7 @@ public class MaquinaBebidaTest {
     maquina.adicionarBebida(Bebida.GUARANA, 1);
     maquina.comprarBebida(Bebida.GUARANA, 4.5);
 
-    assertEquals(0, maquina.getEstoque().get(Bebida.GUARANA));
+    assertEquals(0, maquina.getQuantidadeBebida(Bebida.GUARANA));
     assertEquals(0, maquina.getSaldoTroco().get(Dinheiro.CINQUENTA_CENTAVOS));
     assertEquals(4, maquina.getSaldoTroco().get(Dinheiro.UM_REAL));
     assertEquals(3, maquina.getDinheiroRecebido());
