@@ -9,11 +9,6 @@ public class App {
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     MaquinaBebida maquina = new MaquinaBebida();
-    maquina.inserirDinheiro(new EnumMap<Dinheiro, Integer>(Map.of(
-        Dinheiro.CINQUENTA_CENTAVOS, 2,
-        Dinheiro.UM_REAL, 5)));
-    maquina.adicionarBebida(Bebida.GUARANA, 1);
-    // maquina.comprarBebida(Bebida.GUARANA, 4.5);
     System.out.println("Bem vindo a maquina de bebidas!");
     while (true) {
       System.out.println("\nSelecione uma opcao:");
