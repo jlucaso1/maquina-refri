@@ -18,6 +18,7 @@ public class Util {
         Bebida.AGUA, 0,
         Bebida.COCA, 0,
         Bebida.GUARANA, 0,
+        Bebida.FANTA, 0,
         Bebida.SUCO, 0));
   }
 }

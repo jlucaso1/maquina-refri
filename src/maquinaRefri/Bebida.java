@@ -1,7 +1,7 @@
 package maquinaRefri;
 
 public enum Bebida {
-  AGUA(2.0), COCA(3.0), GUARANA(3.0), SUCO(2.5);
+  AGUA(2.0), COCA(3.0), GUARANA(3.0), SUCO(2.5), FANTA(2.5);
 
   private double preco;
 
