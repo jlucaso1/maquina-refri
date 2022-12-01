@@ -170,6 +170,10 @@ public class App {
       } else if (opcaoAdministrador == 3) {
         System.out.println("\n--- Relatorio (Administrador) ---");
         System.out.println("Dinheiro na maquina: R$ " + maquina.getDinheiroRecebido());
+        System.out.println("Bebidas vendidas:");
+        maquina.getBebidasVendidas().forEach((bebida, quantidade) -> {
+          System.out.println("\t"+bebida.getNome() + ": " + quantidade);
+        });
         System.out.println("Bebidas na maquina:");
         maquina.getEstoque().forEach((bebida, quantidade) -> {
           System.out.println("\t"+bebida.getNome() + ": " + quantidade);
@@ -179,6 +183,10 @@ public class App {
           System.out.println("\t"+"R$ " + dinheiro.getValor() + ": " + quantidade);
         });
         System.out.println("\t"+"Total de troco: R$ " + maquina.saldoTotal(maquina.getSaldoTroco()));
+        System.out.println("Historico:");
+        for (String historico : maquina.getHistorico()) {
+          System.out.println("\t"+historico);
+        }
       } else if (opcaoAdministrador == 4) {
         break;
       } else if (opcaoAdministrador == 5) {

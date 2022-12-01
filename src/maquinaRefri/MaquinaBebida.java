@@ -1,11 +1,15 @@
 package maquinaRefri;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 public class MaquinaBebida {
+  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+
   private EnumMap<Bebida, Integer> estoque = Util.BEBIDAS_VAZIAS();
 
   private EnumMap<Dinheiro, Integer> saldo_troco = Util.SALDO_VAZIO();
@@ -17,6 +21,14 @@ public class MaquinaBebida {
 
   public EnumMap<Bebida, Integer> getEstoque() {
     return this.estoque;
+  }
+
+  public EnumMap<Bebida, Integer> getBebidasVendidas() {
+    return this.produtos_vendidos;
+  }
+
+  public String[] getHistorico() {
+    return this.historico.toArray(new String[0]);
   }
 
   public EnumMap<Dinheiro, Integer> getSaldoTroco() {
@@ -45,13 +57,13 @@ public class MaquinaBebida {
     } else {
       estoque.put(bebida, quantidade);
     }
-    historico.add("Adicionado " + quantidade + " de " + bebida.getNome() + " ao estoque");
+    historico.add("Adicionado " + quantidade + " de " + bebida.getNome() + " ao estoque ["+ dtf.format(LocalDateTime.now()) + "]");
   }
 
   public void inserirDinheiro(EnumMap<Dinheiro, Integer> novoValor) {
     novoValor.forEach((dinheiro, quantidade) -> {
       saldo_troco.put(dinheiro, saldo_troco.get(dinheiro) + quantidade);
-      historico.add("Inserido " + quantidade + " de R$ " + dinheiro.getValor() + " aos trocos");
+      historico.add("Inserido " + quantidade + " de R$ " + dinheiro.getValor() + " aos trocos ["+ dtf.format(LocalDateTime.now()) + "]");
     });
   }
 
@@ -98,7 +110,7 @@ public class MaquinaBebida {
     estoque.put(bebida, estoque.get(bebida) - 1);
     dinheiro_recebido += bebida.getPreco();
     produtos_vendidos.put(bebida, produtos_vendidos.get(bebida) + 1);
-    historico.add("Vendido " + bebida.getNome() + " por R$ " + bebida.getPreco() + " com troco de R$ " + saldoTotal(troco));
+    historico.add("Vendido " + bebida.getNome() + " por R$ " + bebida.getPreco() + " com troco de R$ " + saldoTotal(troco) + " ["+ dtf.format(LocalDateTime.now()) + "]");
 
     return troco;
   }
